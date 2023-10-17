@@ -17,16 +17,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode( onlyExplicitlyIncluded = true )
 public class Category implements Serializable {
 
     public static final Long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
+    @EqualsAndHashCode.Include
     private Integer id;
-
-    @EqualsAndHashCode.Exclude
+    
     private String name;
 
 }
