@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,25 +19,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode( onlyExplicitlyIncluded = true )
-public class Category implements Serializable {
+public class Product implements Serializable {
     private static final Long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     @EqualsAndHashCode.Include
     private Integer id;
-    
+
     private String name;
 
-    @ManyToMany( mappedBy = "categories" )
-    private List<Product> products = new ArrayList<>();
+    private Double price;
 
-    public Category() {
+    @ManyToMany
+    @JoinTable( 
+        name = "PRODUCT_CATEGORY",
+        joinColumns = @JoinColumn( name = "product_id" ),
+        inverseJoinColumns = @JoinColumn( name = "category_id" )
+        )
+    private List<Category> categories =  new ArrayList<>();
+
+    public Product() {
     }
 
-    public Category(Integer id, String name) {
+    public Product(Integer id, String name, Double price) {
         this.id = id;
         this.name = name;
+        this.price = price;
     }
-
+    
 }
