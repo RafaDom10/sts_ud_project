@@ -1,27 +1,25 @@
 package com.rafael.ud_project.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rafael.ud_project.domain.Category;
+import com.rafael.ud_project.services.CategoryService;
 
 @RestController
 @RequestMapping( value = "/categories")
 public class CategoryResource {
 
-    @GetMapping
-    public List<Category> list() {
-        Category category = new Category(1, "Games");
-        Category category2 = new Category(2, "Softwares");
+    @Autowired
+    private CategoryService categoryService;
 
-        List<Category> listCategories = new ArrayList<>();
-        listCategories.add(0, category);
-        listCategories.add(0, category2);
-
-        return listCategories;
+    @GetMapping( value = "/{id}" )
+    public ResponseEntity<Category> find(@PathVariable Integer id) {
+        Category category = this.categoryService.findById(id);
+        return ResponseEntity.ok().body(category);
     }
 }
